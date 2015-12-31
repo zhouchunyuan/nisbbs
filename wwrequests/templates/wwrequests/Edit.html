@@ -1,0 +1,24 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+Edit The Request
+{% endblock %}
+
+{% block main_context %}
+<!--需求列表/-->
+<form method='post'>{% csrf_token %}
+    <table border='1'>
+       {{edit}}
+        <tr><td colspan='2'>
+            <input type='submit' value='Update Request' />
+            <input type='button' value='Go Back' onClick="javascript:history.back(-1);" />
+        </td><tr>
+    </table>
+</form>
+{% endblock %}
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+<h3><a href='/wwrequests/addRequest'>Add Request</a></h3>
+<h3><a href='/wwrequests/viewVotes'>Show votes</a></h3>
+{% endblock %}

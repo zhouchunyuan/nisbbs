@@ -1,0 +1,21 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+View Requests With Votes
+{% endblock %}
+
+{% block main_context %}
+<!--需求列表/-->
+<table border=1 width="400">
+{%autoescape off%}
+  {{fm}}
+{%endautoescape%}
+</table>
+
+{% endblock %}
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+<h3><a href='/wwrequests/addRequest'>Add Request</a></h3>
+<h3><a href='/wwrequests/vote'>Vote</a></h3>
+{% endblock %}

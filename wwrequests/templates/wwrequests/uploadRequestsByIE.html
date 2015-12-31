@@ -1,0 +1,76 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+Upload Requests using IE
+{% endblock %}
+
+{% block main_context %}
+<p><input type="file" name="xlfile" id="xlf"></p>
+
+<button onclick="readData(xlfile.value)">Create Form</button>
+
+<script type="text/javascript">
+
+function readData(filename)//need row number for all 3 sheets
+{
+    var excel=new ActiveXObject("Excel.Application");
+    var book=excel.Workbooks.Open(filename);
+    var sheet1=book.Sheets.Item(1);
+    var sheet2=book.Sheets.Item(2);
+    var sheet3=book.Sheets.Item(3);
+
+    var colnum = 9;
+
+    var head = new Array(colnum+1);
+    
+    value ="<form method='post'>{% csrf_token %}"
+    value+="<table border=1>";
+
+    value+="<tr><th>Type</th>";
+    for(j=2;j<=colnum;j++){
+        head[j] = sheet1.cells.Item(1,j);
+        value+="<th>"+head[j]+"</th>";
+    }
+    value+="</tr>";
+
+    value+= readOneSheet(sheet1,head,colnum,"hardwareA");
+    value+= readOneSheet(sheet2,head,colnum,"hardwareB");
+    value+= readOneSheet(sheet3,head,colnum,"Software");
+    value+="</table>";
+    value+="<input style='width:200px;margin:auto;display:block;' type='submit' value='submit'>";
+    value+="</form>";
+
+    document.write(value);
+    book.Close();
+}
+
+function readOneSheet(sheet,head,colnum,typeStr){
+    var v="";
+    var i=2;
+    while(1){
+        req = new String(sheet.cells.Item(i,3));
+        if(req=='undefined')break;
+        v +="<tr><td><input type='text' name='Type' value='"+typeStr+"'></td>";
+        for(j=2;j<=colnum;j++){
+            txt = new String(sheet.cells.Item(i,j))
+            //txt =sheet1.cells.Item(i,j)
+            if(txt== "undefined")txt="";
+            txt = "<input type='text' name='"+head[j]+"' value='"+txt+"'>";
+            v+="<td>"+txt+"</td>";
+        }
+        v+="</tr>";
+        i++;
+    }
+
+    return v;    
+}
+
+   
+</script>
+{% endblock %}
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+<h3><a href='/wwrequests/addRequest'>Add Request</a></h3>
+<h3><a href='/wwrequests/viewVotes'>Show votes</a></h3>
+{% endblock %}

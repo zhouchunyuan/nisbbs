@@ -1,0 +1,25 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+Add a new WWRequest
+{% endblock %}
+
+{% block main_context %}
+<!--需求列表/-->
+
+<form method='post'>{% csrf_token %}
+    <table border='1'>
+{{new_request}}
+        <tr><td colspan='2'>
+            <input type='submit' value='Add Request' />
+        </td><tr>
+    </table>
+</form>
+
+{% endblock %}
+
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+<h3><a href='/wwrequests/vote'>Vote</a></h3>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+Remove a Request ...
+{% endblock %}
+
+{% block main_context %}
+{% if deleted %}
+    {{deleted}}
+{% endif %}
+{% if to_confirm %}
+    <form method='post'>{% csrf_token %}
+    <table border=1 bgcolor=#FF0000>
+        {%autoescape off%}
+            {{to_confirm}}
+        {%endautoescape%}
+    </table>
+    <input type='submit' value='Delete' />
+    <input type='button' value='Go Back' onClick="javascript:history.back(-1);" />
+    </form>
+{% endif %}
+{% endblock %}
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+<h3><a href='/wwrequests/addRequest'>Add Request</a></h3>
+<h3><a href='/wwrequests/viewVotes'>Show votes</a></h3>
+{% endblock %}

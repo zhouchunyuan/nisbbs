@@ -1,0 +1,53 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+WW Requests List 
+{% endblock %}
+
+{% block main_context %}
+<!--需求列表/-->
+{% if requests_list %}
+    <table border='1'>
+    <tr bgcolor=#ffaaaa>
+        <th></th>
+        <th>Type</td>
+        <th>Category</th>
+        <th>Request</th>
+        <th>Remark</th>
+        <th>From</th>
+        <th>date</th>
+    </tr>
+    {% for r in requests_list %}
+    <tr bgcolor=#aaffaa>
+        {% if r.From == request.user %}
+            <td>
+                <a href='edit/{{r.id}}'><img width='20px' src='/static/pic/edit.jpg'></a>
+                <a href='delete/{{r.id}}'><img width='20px' src='/static/pic/del.jpg'></a>
+            </td>
+        {% else %}
+	    <td></td>
+        {% endif %}
+        
+        <td>{{r.Type}}</td>
+        <td>{{r.Category}}</td>
+        <td>{{r.Request}}</td>
+        <td>{{r.Remark}}</td>
+        <td>{{r.From}}</td>
+        <td>{{r.pub_date}}</td>
+        <td><a href='discuss/{{r.id}}'><img width='50px' src='/static/pic/discuss.jpg'></a></td>
+    </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p> No requests are available.<p>
+{% endif %}
+{% endblock %}
+
+
+{% block side_links %}
+<h3><a href='/wwrequests/vote'>Vote</a></h3>
+<h3><a href='/wwrequests/addRequest'>Add Request</a></h3>
+<h3><a href='/wwrequests/uploadXLS'>Upload Requests from xls (**need IE for ActiveX**)</a></h3>
+<h3><a href='/wwrequests/downloadXLS'>Download Requests into xls (**need IE for ActiveX**)</a></h3>
+<h3><a href='/wwrequests/viewVotes'>Show votes</a></h3>
+{% endblock %}

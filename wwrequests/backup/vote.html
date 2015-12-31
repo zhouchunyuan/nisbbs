@@ -1,0 +1,27 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+Vote for WW Requests {{new_or_update}}
+{% endblock %}
+
+{% block main_context %}
+<!--需求列表/-->
+{% if requests_list %}
+    <form method='post'>{% csrf_token %}
+    <table border=1>
+        {%autoescape off%}
+            {{requests_list}}
+        {%endautoescape%}
+        <tr><td colspan='4'>
+            <input type='submit' value='vote' />
+        </td><tr>
+    <table>
+    </form>
+{% else %}
+    <p> No requests are available.<p>
+{% endif %}
+{% endblock %}
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+{% endblock %}

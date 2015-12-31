@@ -1,0 +1,70 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+Download as XLSX file using IE.
+{% endblock %}
+
+{% block main_context %}
+
+<script type="text/javascript">
+function write_to_excel() 
+{
+str="";
+
+var mytable = document.getElementsByTagName("table")[0];
+var row_Count = mytable.rows.length;
+var col_Count = mytable.getElementsByTagName("tr")[0].getElementsByTagName("th").length;    
+
+try{
+    var xls = new ActiveXObject("Excel.Application");
+}catch(e){
+    alert("you need IE with ActiveX enabled for this page.");
+}
+
+xls.visible = true;
+var xlBook = xls.Workbooks.Add;
+var xlSheet = xlBook.Worksheets(1);
+xlSheet.Columns(1).ColumnWidth=8.5;
+xlSheet.Columns(2).ColumnWidth=12.88;
+xlSheet.Columns(3).ColumnWidth=16.63;
+xlSheet.Columns(4).ColumnWidth=36.38;
+xlSheet.Columns(5).ColumnWidth=5.75;
+xlSheet.Columns(6).ColumnWidth=10;
+xlSheet.Columns(7).ColumnWidth=9;
+xlSheet.Columns(8).ColumnWidth=7.63;
+xlSheet.Columns(9).ColumnWidth=18.13;
+xlSheet.Range(xlSheet.Cells(1,1),xlSheet.Cells(row_Count,col_Count)).WrapText = true;
+xlSheet.Rows(1).Font.Size=10;
+xlSheet.Rows(1).Font.Name="Tahoma";
+xlSheet.Rows(1).Font.Bold=true;
+    for(var i=0; i < row_Count ; i++) 
+    {  
+        var th_or_td;
+        if (i==0){th_or_td="th";}else{th_or_td="td";}
+        for(var j=0; j < col_Count; j++) 
+        {           
+            str= mytable.getElementsByTagName("tr")[i].getElementsByTagName(th_or_td)[j].innerHTML;
+            xlSheet.Cells(i+1,j+1+1).Value = str;
+        }
+    }
+xls.UserControl=true;
+xls=null;
+xlBook=null;
+xlSheet=null;
+}
+</script>
+
+<input type="button" value="Export to EXCEL" onclick="write_to_excel();"/>
+<!--**** INSERT THE TABLE YOU WANT EXPORT HERE ****-->
+<table>
+{% autoescape off %}
+{{request_list}}
+{% endautoescape %}
+</table>
+{% endblock %}
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+<h3><a href='/wwrequests/addRequest'>Add Request</a></h3>
+<h3><a href='/wwrequests/viewVotes'>Show votes</a></h3>
+{% endblock %}

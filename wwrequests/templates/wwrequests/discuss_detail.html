@@ -1,0 +1,39 @@
+{% extends "wwrequests/base.html" %}
+
+{% block session_title %}
+Discuss about WWRequest Detail
+{% endblock %}
+
+{% block main_context %}
+
+    <table border=1 bgcolor=#a0ffa0>
+        {%autoescape off%}
+            {{table_list}}
+        {%endautoescape%}
+    </table>
+
+    <br/><hr/><p>Discussion:</p>
+
+    <div style='word-wrap:break-word;background:#f0f0e0;width:100%'>
+    {% for a in discussion_list %}
+        <p><font color='blue'>{{a.0}}</font>:{{a.1}}</p>
+    {% endfor %}
+    </div>
+    <br/><hr/><br/>
+
+    <form method='post'>{% csrf_token %}
+        <table>
+        <div style='margin:auto;display:block;'>
+        <textarea style='background:#f0f0f0;width:100%;height:100px' type='submit' name='discussion'></textarea>
+        <input style='bgcolor:#0f0f0f;' type='submit' value='discuss' />
+        <div>
+        </table>
+    </form>
+
+{% endblock %}
+
+{% block side_links %}
+<h3><a href='/wwrequests'>See list</a></h3>
+<h3><a href='/wwrequests/addRequest'>Add Request</a></h3>
+<h3><a href='/wwrequests/viewVotes'>Show votes</a></h3>
+{% endblock %}

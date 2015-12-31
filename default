@@ -1,3 +1,4 @@
+#need to set db.sqlite3 and it's parent folder permissions to anyone
 WSGIPythonPath /home/pi/nisbbs
 
 <VirtualHost *:80>

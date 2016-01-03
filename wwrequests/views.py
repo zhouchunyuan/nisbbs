@@ -59,28 +59,29 @@ def vote(request):
                 votes = Votes.objects.get(user=request.user)
                 requests_list=''
                 for i,q in enumerate(query):
-                    selected = ['','','','','']
+                    selected = ['','','','','','']
                     if q in votes.rank1.all():
-                        selected[0]='selected'
-                    elif q in votes.rank2.all():
                         selected[1]='selected'
-                    elif q in votes.rank3.all():
+                    elif q in votes.rank2.all():
                         selected[2]='selected'
-                    elif q in votes.rank4.all():
+                    elif q in votes.rank3.all():
                         selected[3]='selected'
-                    elif q in votes.rank5.all():
+                    elif q in votes.rank4.all():
                         selected[4]='selected'
+                    elif q in votes.rank5.all():
+                        selected[5]='selected'
                     requests_list +='<tr>'
                     requests_list +='<td>'+q.Request+'</td>'
                     requests_list +='<td>'+q.Remark+'</td>'
                     requests_list +='<td>'+q.From.username+'</td>'
                     requests_list +='<td>'
                     requests_list +="<select type='submit' name='score'>"
-                    requests_list +='<option value=1 '+selected[0]+'>1</option>'
-                    requests_list +='<option value=2 '+selected[1]+'>2</option>'
-                    requests_list +='<option value=3 '+selected[2]+'>3</option>'
-                    requests_list +='<option value=4 '+selected[3]+'>4</option>'
-                    requests_list +='<option value=5 '+selected[4]+'>5</option>'
+                    requests_list +='<option value=0 '+selected[0]+'>_</option>'
+                    requests_list +='<option value=1 '+selected[1]+'>1</option>'
+                    requests_list +='<option value=2 '+selected[2]+'>2</option>'
+                    requests_list +='<option value=3 '+selected[3]+'>3</option>'
+                    requests_list +='<option value=4 '+selected[4]+'>4</option>'
+                    requests_list +='<option value=5 '+selected[5]+'>5</option>'
                     requests_list +='</select>'
                     requests_list +="<input type='hidden' name='requestid' value='"+str(q.id)+"'/>"
                     #requests_list +="<input type='hidden' name='newvote' value=0/>"
@@ -95,19 +96,18 @@ def vote(request):
             except Votes.DoesNotExist:
                 requests_list=''
                 for i,q in enumerate(query):
-                    selected = ['','','','','selected']
-
                     requests_list +='<tr>'
                     requests_list +='<td>'+q.Request+'</td>'
                     requests_list +='<td>'+q.Remark+'</td>'
                     requests_list +='<td>'+q.From.username+'</td>'
                     requests_list +='<td>'
                     requests_list +="<select type='submit' name='score'>"
-                    requests_list +='<option value=1 '+selected[0]+'>1</option>'
-                    requests_list +='<option value=2 '+selected[1]+'>2</option>'
-                    requests_list +='<option value=3 '+selected[2]+'>3</option>'
-                    requests_list +='<option value=4 '+selected[3]+'>4</option>'
-                    requests_list +='<option value=5 '+selected[4]+'>5</option>'
+                    requests_list +='<option value=0>_</option>'
+                    requests_list +='<option value=1>1</option>'
+                    requests_list +='<option value=2>2</option>'
+                    requests_list +='<option value=3>3</option>'
+                    requests_list +='<option value=4>4</option>'
+                    requests_list +='<option value=5>5</option>'
                     requests_list +='</select>'
                     requests_list +="<input type='hidden' name='requestid' value='"+str(q.id)+"'/>"
                     requests_list +="<input type='hidden' name='newvote' value=1/>"

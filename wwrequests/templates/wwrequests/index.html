@@ -34,7 +34,10 @@ WW Requests List
         <td>{{r.Remark}}</td>
         <td>{{r.From}}</td>
         <td>{{r.pub_date}}</td>
-        <td><a href='discuss/{{r.id}}'><img width='50px' src='/static/pic/discuss.jpg'></a></td>
+        <td align=center>
+            <a href='discuss/{{r.id}}'><img width='50px' src='/static/pic/discuss.jpg'></a>
+            {{r.discussion_set.count}}
+        </td>
     </tr>
     {% endfor %}
     </table>

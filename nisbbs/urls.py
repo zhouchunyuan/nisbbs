@@ -17,10 +17,17 @@ Including another URLconf
 from django.conf.urls import include,url
 from django.contrib import admin
 from wwrequests import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^wwrequests/',include('wwrequests.urls')),
     url(r'^admin/', admin.site.urls),
+    url(
+        '^change-password/',
+        auth_views.password_change,
+        {'template_name': 'registration/change-password.html',
+         'post_change_redirect':'/'}
+    ),
     url('^', include('django.contrib.auth.urls')),
     url(r'^regist/',views.regist,name = 'regist'),
     url(r'^$', views.view),

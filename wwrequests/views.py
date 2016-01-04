@@ -138,7 +138,10 @@ def discuss_detail(request,reqid):
         if request.method == 'POST':
             dis_content = request.POST.get('discussion')
             if dis_content:
-                Discussion.objects.create(content=dis_content,
+                try:
+                    Discussion.objects.get(content=dis_content,user=request.user)
+                except(Discussion.DoesNotExist):
+                    Discussion.objects.create(content=dis_content,
                                           request=Requests.objects.get(id=reqid),
                                           user=request.user
                                           )

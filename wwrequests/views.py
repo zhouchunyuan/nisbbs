@@ -135,16 +135,6 @@ def view(request):
 def discuss_detail(request,reqid):
     #if user is not None:
     if request.user.is_authenticated():
-        if request.method == 'POST':
-            dis_content = request.POST.get('discussion')
-            if dis_content:
-                try:
-                    Discussion.objects.get(content=dis_content,user=request.user)
-                except(Discussion.DoesNotExist):
-                    Discussion.objects.create(content=dis_content,
-                                          request=Requests.objects.get(id=reqid),
-                                          user=request.user
-                                          )
 
         req = Requests.objects.get(id=reqid)
 
@@ -168,11 +158,29 @@ def discuss_detail(request,reqid):
         table_list+='<td>'+req.Status+'</td>'
         table_list+='<td>'+req.Comment+'</td>'
         table_list+='</tr>'
+
         
         discussion_list = []
-        for d in req.discussion_set.all():
-            discussion_list.append([d.user.username,d.content])
-        context = {'table_list':table_list,
+           
+        if request.method == 'POST':
+            dis_content = request.POST.get('discussion')
+            if dis_content:
+                try:
+                    Discussion.objects.get(content=dis_content,
+                                           request=req,
+                                           user=request.user)
+                    discussion_list=[['<error>Repeat of your previous post is not allowed',dis_content]]
+
+                except(Discussion.DoesNotExist):
+                    Discussion.objects.create(content=dis_content,
+                                          request=req,
+                                          user=request.user
+                                          )        
+        if len(discussion_list)==0:        
+            for d in req.discussion_set.all():
+                discussion_list.append([d.user.username,d.content])
+        context = {'reqid':reqid,
+                   'table_list':table_list,
                    'discussion_list':discussion_list}
         return render(request,'wwrequests/discuss_detail.html',context)
     else:

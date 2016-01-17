@@ -25,7 +25,8 @@ Discuss about WWRequest Detail
         <table>
         <div style='margin:auto;display:block;'>
         <textarea style='background:#f0f0f0;width:100%;height:100px' type='submit' name='discussion'></textarea>
-        <input style='bgcolor:#0f0f0f;' type='submit' value='discuss' />
+        <button onclick="submit();">discuss</button>
+        <button onclick="window.navigate({%url 'wwrequests:detail' reqid %});">refresh</button>
         <div>
         </table>
     </form>
